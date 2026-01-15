@@ -1,0 +1,5 @@
+#pragma once
+#include <initguid.h>
+
+// {074AAE64-2F35-4E30-AF21-60A2F059E8F1}
+DEFINE_GUID(CLSID_NewFolderFromFilesShellExtension, 0x74aae64, 0x2f35, 0x4e30, 0xaf, 0x21, 0x60, 0xa2, 0xf0, 0x59, 0xe8, 0xf1);
