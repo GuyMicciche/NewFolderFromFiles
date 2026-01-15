@@ -3,8 +3,8 @@
 
 #define MyAppName "New Folder From Files"
 #define MyAppVersion "1.0.0"
-#define MyAppPublisher "Your Name"
-#define MyAppURL "https://github.com/yourusername/NewFolderFromFiles"
+#define MyAppPublisher "Guy Micciche"
+#define MyAppURL "https://github.com/GuyMicciche/NewFolderFromFiles"
 #define MyAppExeName "NewFolderFromFilesHotkey.exe"
 
 [Setup]
