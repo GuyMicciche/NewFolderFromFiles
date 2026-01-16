@@ -52,23 +52,34 @@ jobs:
         CERT_PFX_BASE64: ${{ secrets.SELF_SIGN_PFX_BASE64 }}
         CERT_PASSWORD: ${{ secrets.SELF_SIGN_PASSWORD }}
       run: |
+        # Decode PFX
         $pfxBytes = [Convert]::FromBase64String($env:CERT_PFX_BASE64)
         $pfxPath = "cert.pfx"
         [IO.File]::WriteAllBytes($pfxPath, $pfxBytes)
         
+        # Find signtool (works on GitHub Actions windows-latest)
+        $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+        if (-not (Test-Path $signtool)) {
+          $signtool = "C:\Program Files (x86)\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
+        }
+        if (-not (Test-Path $signtool)) {
+          Write-Error "signtool not found"
+          exit 1
+        }
+        Write-Output "Using signtool: $signtool"
+        
         # Sign Hotkey EXE
-        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFilesHotkey.exe
+        & $signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "build/bin/Release/NewFolderFromFilesHotkey.exe"
         
         # Sign DLL
-        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFiles.dll
+        & $signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "build/bin/Release/NewFolderFromFiles.dll"
         
         # Sign Installer
-        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/NewFolderFromFiles-Setup.exe
+        & $signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "build/NewFolderFromFiles-Setup.exe"
         
         # Verify
-        signtool verify /pa /v build/NewFolderFromFiles-Setup.exe
-        Write-Output "✅ All files signed!"
-
+        & $signtool verify /pa /v "build/NewFolderFromFiles-Setup.exe"
+        Write-Output "✅ All files signed successfully!"
 
     - name: Upload Installer artifact
       uses: actions/upload-artifact@v4
