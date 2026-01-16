@@ -37,6 +37,13 @@ Get the latest installer from [**Releases**](https://github.com/GuyMicciche/NewF
 
 Run `NewFolderFromFiles-Setup.exe` and follow the prompts.
 
+## Installation (Windows SmartScreen Warning)
+
+1. Download `NewFolderFromFiles-Setup.exe`
+2. **Right-click → Properties** → Verify "Digitally signed"
+3. Double‑click → **"More info" → "Run anyway"**
+4. Done! Self‑signed for development.
+
 ## Usage
 
 **Context Menu:**
