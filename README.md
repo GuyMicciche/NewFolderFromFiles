@@ -15,6 +15,22 @@ A Windows Explorer shell extension that creates a new folder from selected files
 - Clean Windows-native integration — no bloat
 - System tray helper with toggle option
 
+<picture>
+  <img src="https://github.com/user-attachments/assets/cd17a0a7-92de-4383-961d-65234b26e147" alt="Screenshot 2" width="450">
+</picture>
+
+<picture>
+  <img src="https://github.com/user-attachments/assets/b9ffec23-a049-436e-b4a9-8a97d9a2f1c0" alt="Screenshot 3" height="450">
+</picture>
+
+<picture>
+  <img src="https://github.com/user-attachments/assets/f480a60b-9811-4449-a475-5fe3cd52130b" alt="Screenshot 1" width="450">
+</picture>
+
+<picture>
+  <img src="https://github.com/user-attachments/assets/c585bf4d-5205-4902-91b5-1b58042744d4" alt="Screenshot 4" width="200">
+</picture>
+
 ## Download
 
 Get the latest installer from [**Releases**](https://github.com/GuyMicciche/NewFolderFromFiles/releases).
