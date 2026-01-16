@@ -52,7 +52,6 @@ jobs:
         CERT_PFX_BASE64: ${{ secrets.SELF_SIGN_PFX_BASE64 }}
         CERT_PASSWORD: ${{ secrets.SELF_SIGN_PASSWORD }}
       run: |
-        # Decode PFX cert
         $pfxBytes = [Convert]::FromBase64String($env:CERT_PFX_BASE64)
         $pfxPath = "cert.pfx"
         [IO.File]::WriteAllBytes($pfxPath, $pfxBytes)
@@ -60,15 +59,16 @@ jobs:
         # Sign Hotkey EXE
         signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFilesHotkey.exe
         
-        # Sign DLL (optional but good)
+        # Sign DLL
         signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFiles.dll
         
         # Sign Installer
         signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/NewFolderFromFiles-Setup.exe
         
-        # Verify signatures
+        # Verify
         signtool verify /pa /v build/NewFolderFromFiles-Setup.exe
-        Write-Output "All files signed successfully!"
+        Write-Output "✅ All files signed!"
+
 
     - name: Upload Installer artifact
       uses: actions/upload-artifact@v4
