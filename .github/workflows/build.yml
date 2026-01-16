@@ -43,6 +43,33 @@ jobs:
       run: |
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\setup.iss
 
+    - name: Setup Windows SDK (for signtool)
+      uses: microsoft/setup-msbuild@v2  # Already have this, but ensures SDK
+
+    - name: Code Sign EXE, DLL, and Installer
+      shell: pwsh
+      env:
+        CERT_PFX_BASE64: ${{ secrets.SELF_SIGN_PFX_BASE64 }}
+        CERT_PASSWORD: ${{ secrets.SELF_SIGN_PASSWORD }}
+      run: |
+        # Decode PFX cert
+        $pfxBytes = [Convert]::FromBase64String($env:CERT_PFX_BASE64)
+        $pfxPath = "cert.pfx"
+        [IO.File]::WriteAllBytes($pfxPath, $pfxBytes)
+        
+        # Sign Hotkey EXE
+        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFilesHotkey.exe
+        
+        # Sign DLL (optional but good)
+        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/bin/Release/NewFolderFromFiles.dll
+        
+        # Sign Installer
+        signtool sign /f $pfxPath /p $env:CERT_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 build/NewFolderFromFiles-Setup.exe
+        
+        # Verify signatures
+        signtool verify /pa /v build/NewFolderFromFiles-Setup.exe
+        Write-Output "All files signed successfully!"
+
     - name: Upload Installer artifact
       uses: actions/upload-artifact@v4
       with:
