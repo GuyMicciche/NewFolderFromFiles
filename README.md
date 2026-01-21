@@ -105,6 +105,12 @@ $base64 = [Convert]::ToBase64String($pfxBytes)
 $base64 | Out-File -FilePath "$env:USERPROFILE\Desktop\cert-clean-base64.txt" -Encoding ASCII -NoNewline
 ```
 
+### Create Installer (Windows)
+1. Install [Inno Setup 6](https://jrsoftware.org/isdl.php)
+2. Open `installer/setup.iss`
+3. Press Ctrl+F9
+4. Installer: `build/NewFolderFromFiles-Setup.exe`
+
 ### Configure Sign Tools (optional) in Inno Setup
 
 1. Open `installer/setup-signed.iss`
@@ -112,12 +118,6 @@ $base64 | Out-File -FilePath "$env:USERPROFILE\Desktop\cert-clean-base64.txt" -E
 3. Click Add...
 4. Name of the Sign Tool: NewFolderFromFiles-SignTool
 5. Command of the Sign Tool: `"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe" sign /f "C:\Users\Guy\source\repos\NewFolderFromFiles\NewFolderFromFiles.pfx" /p mypassword123 /tr http://timestamp.digicert.com /td sha256 /fd sha256 $f`
-
-### Create Installer (Windows)
-1. Install [Inno Setup 6](https://jrsoftware.org/isdl.php)
-2. Open `installer/setup.iss`
-3. Press Ctrl+F9
-4. Installer: `build/NewFolderFromFiles-Setup.exe`
 
 ### Manual Registration (for testing)
 
