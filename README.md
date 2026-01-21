@@ -83,8 +83,37 @@ Output:
 - `build/bin/Release/NewFolderFromFiles.dll`
 - `build/bin/Release/NewFolderFromFilesHotkey.exe`
 
-### Create Installer
+### Generate Certificate (optional)
 
+Open PowerShell as Administrator and run these commands (copy/paste one at a time):
+
+```powershell
+# Generate cert
+$cert = New-SelfSignedCertificate -Type CodeSigningCert -Subject "CN=NewFolderFromFiles" -CertStoreLocation Cert:\CurrentUser\My
+```
+
+```powershell
+# Export PFX (change password if you want)
+$password = ConvertTo-SecureString -String "mypassword123" -Force -AsPlainText
+Export-PfxCertificate -Cert $cert -FilePath "$env:USERPROFILE\Desktop\NewFolderFromFiles.pfx" -Password $password
+```
+
+```powershell
+# Generate CLEAN base64 (no BOM)
+$pfxBytes = Get-Content "$env:USERPROFILE\Desktop\NewFolderFromFiles.pfx" -Encoding Byte
+$base64 = [Convert]::ToBase64String($pfxBytes)
+$base64 | Out-File -FilePath "$env:USERPROFILE\Desktop\cert-clean-base64.txt" -Encoding ASCII -NoNewline
+```
+
+### Configure Sign Tools (optional) in Inno Setup
+
+1. Open `installer/setup-signed.iss`
+2. Go to Tools → Configure Sign Tools
+3. Click Add...
+4. Name of the Sign Tool: NewFolderFromFiles-SignTool
+5. Command of the Sign Tool: `"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe" sign /f "C:\Users\Guy\source\repos\NewFolderFromFiles\NewFolderFromFiles.pfx" /p mypassword123 /tr http://timestamp.digicert.com /td sha256 /fd sha256 $f`
+
+### Create Installer (Windows)
 1. Install [Inno Setup 6](https://jrsoftware.org/isdl.php)
 2. Open `installer/setup.iss`
 3. Press Ctrl+F9

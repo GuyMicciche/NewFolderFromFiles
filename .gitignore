@@ -23,3 +23,6 @@ cmake_install.cmake
 # OS
 Thumbs.db
 .DS_Store
+
+# Certificate
+*.pfx
