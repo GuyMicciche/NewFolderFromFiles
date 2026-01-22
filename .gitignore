@@ -26,3 +26,6 @@ Thumbs.db
 
 # Certificate
 *.pfx
+
+# Certificate (clean)
+cert-clean-base64.txt

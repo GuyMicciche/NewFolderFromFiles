@@ -35,7 +35,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "startupicon"; Description: "Start hotkey helper with Windows"; GroupDescription: "Additional options:"
 
 [Files]
-Source: "..\build\bin\Release\NewFolderFromFiles.dll"; DestDir: "{app}"; Flags: ignoreversion regserver 64bit
+Source: "..\build\bin\Release\NewFolderFromFiles.dll"; DestDir: "{app}"; Flags: ignoreversion regserver 64bit uninsrestartdelete
 Source: "..\build\bin\Release\NewFolderFromFilesHotkey.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
@@ -59,3 +59,11 @@ begin
     Exec('regsvr32.exe', '/u /s "' + ExpandConstant('{app}\NewFolderFromFiles.dll') + '"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
   end;
 end;
+
+[UninstallRun]
+Filename: "taskkill.exe"; Parameters: "/F /IM NewFolderFromFilesHotkey.exe"; Flags: runhidden; RunOnceId: "KillHotkey"
+Filename: "{sys}\regsvr32.exe"; Parameters: "/u /s ""{app}\NewFolderFromFiles.dll"""; Flags: runhidden 64bit; RunOnceId: "UnregDLL"
+
+[UninstallDelete]
+Type: filesandordirs; Name: "{app}"
+
