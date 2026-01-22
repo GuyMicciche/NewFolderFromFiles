@@ -2,7 +2,7 @@
 ; Requires Inno Setup 6.x
 
 #define MyAppName "New Folder From Files"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.5.0"
 #define MyAppPublisher "Guy Micciche"
 #define MyAppURL "https://github.com/GuyMicciche/NewFolderFromFiles"
 #define MyAppExeName "NewFolderFromFilesHotkey.exe"
