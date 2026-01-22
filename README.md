@@ -11,9 +11,30 @@ A Windows Explorer shell extension that creates a new folder from selected files
 - Works with any files and folders
 - Smart folder naming based on common filename prefix
 - Single undo (Ctrl+Z) reverts the entire operation
-- Keyboard shortcut: **Ctrl+Alt+N**
+- Keyboard shortcuts with system tray helper
 - Clean Windows-native integration — no bloat
-- System tray helper with toggle option
+
+### Organization Options
+
+| Option | Description |
+|--------|-------------|
+| **New folder with selection** | Creates single folder with smart naming |
+| **By Date** | Day, Month, Year, Month-Year, or Full Date folders |
+| **By Type** | Video, Photo, Audio, Document, Other |
+| **By Extension** | Separate folder per file extension (JPG, PDF, etc.) |
+| **By Size** | Small (<1MB), Medium (1-100MB), Large (>100MB) |
+| **Flatten** | Move all files from subfolders to current folder |
+| **Numbered** | Folder 1, Folder 2, etc. |
+| **Alphabetical** | A-Z folders based on first letter |
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| **Ctrl+Alt+N** | New folder with selection |
+| **Ctrl+Alt+C** | Center active window (cycles: Full → Horizontal → Vertical) |
+
+Both shortcuts can be toggled on/off via the system tray icon.
 
 <picture>
   <img src="https://github.com/user-attachments/assets/cd17a0a7-92de-4383-961d-65234b26e147" alt="Screenshot 2" width="450">
@@ -49,14 +70,24 @@ Run `NewFolderFromFiles-Setup.exe` and follow the prompts.
 **Context Menu:**
 1. Select files/folders in Explorer
 2. Right-click → **New folder with selection**
+   - Click directly to create folder with smart naming
+   - Hover for submenu with organization options
 3. Type a name (or keep the suggested one)
 
-**Keyboard Shortcut:**
+**Keyboard Shortcuts:**
 1. Select files/folders in Explorer
-2. Press **Ctrl+Alt+N**
+2. Press **Ctrl+Alt+N** to create new folder
+
+**Window Centering:**
+1. Focus any window
+2. Press **Ctrl+Alt+C** to cycle through:
+   - Full center (horizontal + vertical)
+   - Horizontal center only (keeps original Y)
+   - Vertical center only (keeps original X)
+3. Moving the window manually resets the cycle
 
 **Hotkey Helper (system tray):**
-- Right-click tray icon to enable/disable hotkey
+- Right-click tray icon to enable/disable shortcuts
 - Starts automatically with Windows (optional)
 
 ## Build from Source
@@ -139,7 +170,7 @@ NewFolderFromFiles/
 │   ├── dllmain.cpp                           # DLL entry + registration
 │   ├── NewFolderFromFilesClassFactory.cpp    # COM class factory
 │   ├── NewFolderFromFilesContextMenuHandler.cpp  # Context menu logic
-│   ├── HotkeyHelper.cpp                      # Tray app for Ctrl+Alt+N
+│   ├── HotkeyHelper.cpp                      # Tray app for shortcuts
 │   └── *.h
 ├── installer/
 │   └── setup.iss                             # Inno Setup script
